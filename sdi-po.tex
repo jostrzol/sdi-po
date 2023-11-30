@@ -192,15 +192,34 @@ Politechnika Warszawska}
 
 \section{Istniejące rozwiązania}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{BGD -- BoardGameDescription\cite{BGD}}
-	\begin{itemize}
-		\item Język opisu gier planszowych (szeroki zakres)
-		\item Główny cel: możliwość opisu jak największej liczby gier
-		\item Opis gry za pomocą abstrakcyjnych elementów składowych (np. obiekt, lokacja, widoczność)
-		\item Mało zwięzły (np. implementacja Chińczyka -- 400 linii, Manilla -- 1100 linii)
-		\item Brak udogodnień znanych z języków programowania (np. pętle, listy)
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{.5\textwidth}
+			\begin{itemize}
+				\item Cel: możliwość opisu jak największej liczby gier
+				\item Opis gry za pomocą abstrakcyjnych elementów składowych (np. obiekt, lokacja, widoczność)
+				\item Mało zwięzły (Chińczyk: 400 linii, Manilla: 1100 linii)
+				\item Brak pętli, list
+			\end{itemize}
+		\end{column}%
+		\hfill
+		\begin{column}{.5\textwidth}
+			\begin{lstlisting}
+Locations {
+ Loc1 {Startspace=true;}
+ Loc2 ...
+}
+LocationConnections {
+	Directed {Loc1 Loc2}
+}
+Objects {
+	Pawn {...}
+	Dice {...}
+}
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 % \begin{frame}
@@ -223,16 +242,34 @@ Politechnika Warszawska}
 % 	\end{itemize}
 % \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{GDL -- Game Description Language\cite{GDL}}
-	\begin{itemize}
-		\item Język opisu gier planszowych (szeroki zakres)
-		\item Główny cel: opis jak największej liczby gier do zadań SI
-		\item Podobny do Prologa -- predykaty głównym budulcem zasad
-		\item Bardzo elastyczny, przy tym mało skomplikowany
-		\item Brak wbudowanych konceptów gier planszowych (takich jak: plansza, gracz)
-		\item Brak wbudowanych operacji arytmetycznych
-	\end{itemize}
+	\begin{columns}
+		\begin{column}{.45\textwidth}
+			\begin{itemize}
+				\item Cel: opis gier do zadań SI
+				\item Predykaty głównym budulcem zasad (podobny do Prologa)
+				\item Bardzo elastyczny, przy tym mało skomplikowany
+				\item Brak konceptów z gier planszowych (plansza, gracz, itp.)
+				\item Brak operacji arytmetycznych
+			\end{itemize}
+		\end{column}%
+		\hfill
+		\begin{column}{.55\textwidth}
+			\begin{lstlisting}
+(role xplayer)
+(role oplayer)
+(<=(legal ?player (mark ?m ?n))
+ (true (cell ?m ?n blank))
+ (true (control ?player)))
+(<=(next (cell ?m ?n x))
+ (does xplayer (mark ?m ?n)))
+(<= terminal (line x))
+(<= (goal xplayer 100)
+ (line x))
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}
@@ -449,11 +486,11 @@ composite_function "motion_neighbours" {
 	\begin{thebibliography}{9}
 		\bibitem{BGD} P. Schroten. ,,Introducing BGD: a DSL to express board games and gameplay'' (2019).
 
+		\bibitem{GDL} N. Love, T. Hinrichs, D. Haley, E. Schkufza, and M. Genesereth. ,,General Game Playing: Game Description Language Specification. Technical report, Stanford Logic Group'' (2006).
+
 		\bibitem{RAS} V. Lap. ,,Introducing RAS: A Domain Specific Language For Trading Card Games'' (2018).
 
-		\bibitem{metagame}  B. Pell. ,,METAGAME: A New Challenge for Games and Learning. In Heuristic Programming in Artificial Intelligence: The Third Computer Olympiad.'' (1992).
-
-		\bibitem{GDL}  N. Love, T. Hinrichs, D. Haley, E. Schkufza, and M. Genesereth. ,,General Game Playing: Game Description Language Specification. Technical report, Stanford Logic Group'' (2006).
+		\bibitem{metagame} B. Pell. ,,METAGAME: A New Challenge for Games and Learning. In Heuristic Programming in Artificial Intelligence: The Third Computer Olympiad.'' (1992).
 
 		\bibitem{GGP} J. Kowalski. ,,General Game Description Languages'' (2016).
 
