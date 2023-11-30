@@ -67,9 +67,9 @@ Politechnika Warszawska}
 
 \frame{\titlepage}
 
-\frame{\tableofcontents\frametitle{Plan prezentacji}}
+% \frame{\tableofcontents\frametitle{Plan prezentacji}}
 
-\section{Cel pracy}
+\section{Cele i zastosowania pracy}
 
 \begin{frame}
 	\frametitle{Cele pracy}
@@ -82,6 +82,15 @@ Politechnika Warszawska}
 		      \end{itemize}
 		\item stworzenie interfejsu użytkownika
 	\end{enumerate}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zastosowania}
+	\begin{itemize}
+		\item zachęcanie młodych osób do nauki programowania
+		\item edukacja początkujących programistów w ciekawy sposób
+		\item szybkie tworzenie gier do zadań sztucznej inteligencji
+	\end{itemize}
 \end{frame}
 
 \section{Tematyka pracy}
@@ -97,48 +106,48 @@ Politechnika Warszawska}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Halma}
-	\begin{columns}
-		\begin{column}{.48\textwidth}
-			\begin{itemize}
-				\item Cel -- ustawić wszystkie piony na polu startowym przeciwnika
-				\item Poruszanie o 1 po  krawędziach kwadratu
-				\item Przeskakiwanie przez 1 piona po krawędziach kwadratu (dozwolone łączenie wiele na raz)
-			\end{itemize}
-		\end{column}%
-		\hfill
-		\begin{column}{.60\textwidth}
-			\begin{figure}
-				\includegraphics[height=4.5cm]{halma.png}
-				\centering
-				\caption{\url{https://brainking.com/en/GameRules?tp=33}}
-			\end{figure}
-		\end{column}
-	\end{columns}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Halma}
+% 	\begin{columns}
+% 		\begin{column}{.48\textwidth}
+% 			\begin{itemize}
+% 				\item Cel -- ustawić wszystkie piony na polu startowym przeciwnika
+% 				\item Poruszanie o 1 pole
+% 				\item Przeskakiwanie przez 1 piona (dozwolone łączenie wiele na raz)
+% 			\end{itemize}
+% 		\end{column}%
+% 		\hfill
+% 		\begin{column}{.60\textwidth}
+% 			\begin{figure}
+% 				\includegraphics[height=4.5cm]{halma.png}
+% 				\centering
+% 				\caption{\url{https://brainking.com/en/GameRules?tp=33}}
+% 			\end{figure}
+% 		\end{column}
+% 	\end{columns}
+% \end{frame}
 
-\begin{frame}
-	\frametitle{Dōbutsu shōgi}
-	\begin{columns}
-		\begin{column}{.48\textwidth}
-			\begin{itemize}
-				\item Cel -- zbić lwa przeciwnika lub przejść lwem na stronę przeciwnika
-				\item Poruszanie zgodnie z oznaczeniami na figurach
-				\item Promocja kurczaka do kury
-				\item Możliwość kładzenia zbitych figur przeciwnika
-			\end{itemize}
-		\end{column}%
-		\hfill
-		\begin{column}{.60\textwidth}
-			\begin{figure}
-				\includegraphics[height=4.5cm]{dobutsu-shogi.png}
-				\centering
-				\caption{\url{https://www.pychess.org/variants/dobutsu}}
-			\end{figure}
-		\end{column}
-	\end{columns}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Dōbutsu shōgi}
+% 	\begin{columns}
+% 		\begin{column}{.48\textwidth}
+% 			\begin{itemize}
+% 				\item Cel -- zbić lwa przeciwnika lub przejść lwem na stronę przeciwnika
+% 				\item Poruszanie zgodnie z oznaczeniami na figurach
+% 				\item Promocja kurczaka do kury
+% 				\item Możliwość stawiania zbitych figur przeciwnika jako swoich
+% 			\end{itemize}
+% 		\end{column}%
+% 		\hfill
+% 		\begin{column}{.60\textwidth}
+% 			\begin{figure}
+% 				\includegraphics[height=4.5cm]{dobutsu-shogi.png}
+% 				\centering
+% 				\caption{\url{https://www.pychess.org/variants/dobutsu}}
+% 			\end{figure}
+% 		\end{column}
+% 	\end{columns}
+% \end{frame}
 
 \begin{frame}
 	\frametitle{Silnik gry}
@@ -194,25 +203,25 @@ Politechnika Warszawska}
 	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{RAS -- Rule Automation System\cite{RAS}}
-	\begin{itemize}
-		\item Język opisu gier karcianych
-		\item Główny cel: używanie przez ludzi niezaznajomionych z programowaniem
-		\item Ograniczony tylko do gier karcianych
-		\item Brak udogodnień znanych z języków programowania (np. pętle, listy)
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{RAS -- Rule Automation System\cite{RAS}}
+% 	\begin{itemize}
+% 		\item Język opisu gier karcianych
+% 		\item Główny cel: używanie przez ludzi niezaznajomionych z programowaniem
+% 		\item Ograniczony tylko do gier karcianych
+% 		\item Brak udogodnień znanych z języków programowania (np. pętle, listy)
+% 	\end{itemize}
+% \end{frame}
 
-\begin{frame}
-	\frametitle{Metagame\cite{metagame}}
-	\begin{itemize}
-		\item Język opisu gier opartych o szachownicę
-		\item Główny cel: dokładny opis gier na potrzeby zadań SI
-		\item Bardzo rozbudowany, wiele elementów składowych języka
-		\item Skomplikowany w pisaniu i rozumieniu
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Metagame\cite{metagame}}
+% 	\begin{itemize}
+% 		\item Język opisu gier opartych o szachownicę
+% 		\item Główny cel: dokładny opis gier na potrzeby zadań SI
+% 		\item Bardzo rozbudowany, wiele elementów składowych języka
+% 		\item Skomplikowany w pisaniu i rozumieniu
+% 	\end{itemize}
+% \end{frame}
 
 \begin{frame}
 	\frametitle{GDL -- Game Description Language\cite{GDL}}
@@ -227,7 +236,7 @@ Politechnika Warszawska}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Wnioski}
+	\frametitle{Podsumowanie istniejących rozwiązań}
 	\begin{itemize}
 		\item Istnieją rozwiązania spełniające cele mojego projektu
 		\item Skupiają się na wykorzystaniu w zadaniach SI
