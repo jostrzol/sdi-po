@@ -3,9 +3,10 @@
 \usetheme{Warsaw}
 \usecolortheme{seahorse}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{bibliography item}{\insertbiblabel}
+% \setbeamertemplate{bibliography item}{\insertbiblabel}
 \setbeamertemplate{caption}{\raggedright\scriptsize\insertcaption\par}
 \setbeamercolor{background canvas}{bg=}
+\setbeamerfont{footnote}{size=\tiny}
 \usepackage{beamerthemesplit}
 \usepackage{pgf}
 \usepackage{epsfig}
@@ -18,6 +19,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{graphicx}
+\usepackage[style=verbose,backend=biber,sorting=none]{biblatex}
+\addbibresource{sdi-po.bib}
+
 \newcommand{\IR}{\bbold R}
 \def\Rset{\mathbb{R}}
 \def\Zset{\mathbb{Z}}
@@ -35,7 +39,7 @@
     breaklines=true,
     tabsize=2,
 	numberstyle=\color{gray}\footnotesize,
-    basicstyle=\small\ttfamily,
+    basicstyle=\footnotesize\ttfamily,
 }
 % \AtBeginSection{
 %   \begin{frame}
@@ -96,7 +100,22 @@ Politechnika Warszawska}
 \section{Tematyka pracy}
 
 \begin{frame}
-	\frametitle{Język -- wstępne założenia}
+	\frametitle{Język domenowy}
+	\begin{itemize}
+		\item wyspecjalizowany do konkretnych zadań
+		\item wąskie spektrum zastosowań
+		\item łatwe i szybkie korzystanie
+		\item podejścia:
+		\begin{enumerate}
+			\item stworzenie własnego języka dziedzinowego
+			\item stworzenie języka dziedzinowego zanurzonego w języku programowania (np. Kotlin, Lua, Haskell)
+			\item użycie istniejącego formatu (np. {\tt JSON}, {\tt YAML})
+		\end{enumerate} 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Język domenowy -- wstępne założenia}
 	\begin{itemize}
 		\item opisuje gry 2-osobowe, turowe, deterministyczne
 		\item możliwie nieskomplikowany
@@ -171,36 +190,37 @@ Politechnika Warszawska}
 	\end{columns}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Interfejs użytkownika}
-	\begin{itemize}
-		\item Tematycznie najmniej istotna część projektu
-		\item Wersja minimalna
-		      \begin{itemize}
-			      \item interfejs terminalowy
-			      \item rozgrywka na jednym urządzeniu
-		      \end{itemize}
-		\item Wersja docelowa
-		      \begin{itemize}
-			      \item interfejs w przeglądarce internetowej
-			      \item komunikacja z serwerem, na którym działa silnik gry (po protokole HTTP/WS)
-			      \item rozgrywka poprzez 2 urządzenia
-		      \end{itemize}
-	\end{itemize}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Interfejs użytkownika}
+% 	\begin{itemize}
+% 		\item Tematycznie najmniej istotna część projektu
+% 		\item Wersja minimalna
+% 		      \begin{itemize}
+% 			      \item interfejs terminalowy
+% 			      \item rozgrywka na jednym urządzeniu
+% 		      \end{itemize}
+% 		\item Wersja docelowa
+% 		      \begin{itemize}
+% 			      \item interfejs w przeglądarce internetowej
+% 			      \item komunikacja z serwerem, na którym działa silnik gry (po protokole HTTP/WS)
+% 			      \item rozgrywka poprzez 2 urządzenia
+% 		      \end{itemize}
+% 	\end{itemize}
+% \end{frame}
 
 
 \section{Istniejące rozwiązania}
 
 \begin{frame}[fragile]
-	\frametitle{BGD -- BoardGameDescription\cite{BGD}}
+	\frametitle{BGD -- BoardGameDescription\setcounter{footnote}{0}\footnotemark}
+	\stepcounter{footnote}
 	\begin{columns}
 		\begin{column}{.5\textwidth}
 			\begin{itemize}
 				\item Cel: możliwość opisu jak największej liczby gier
 				\item Opis gry za pomocą abstrakcyjnych elementów składowych (np. obiekt, lokacja, widoczność)
 				\item Mało zwięzły (Chińczyk: 400 linii, Manilla: 1100 linii)
-				\item Brak pętli, list
+				\item Brak pętli, list, itp.
 			\end{itemize}
 		\end{column}%
 		\hfill
@@ -220,6 +240,7 @@ Objects {
 			\end{lstlisting}
 		\end{column}
 	\end{columns}
+	\footcitetext{BGD}
 \end{frame}
 
 % \begin{frame}
@@ -243,22 +264,21 @@ Objects {
 % \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{GDL -- Game Description Language\cite{GDL}}
+	\frametitle{GDL -- Game Description Language\setcounter{footnote}{0}\footnotemark}
 	\begin{columns}
-		\begin{column}{.45\textwidth}
+		\begin{column}{.50\textwidth}
 			\begin{itemize}
 				\item Cel: opis gier do zadań SI
-				\item Predykaty głównym budulcem zasad (podobny do Prologa)
+				\item Predykaty głównym budulcem zasad %(podobny do Prologa)
 				\item Bardzo elastyczny, przy tym mało skomplikowany
 				\item Brak konceptów z gier planszowych (plansza, gracz, itp.)
 				\item Brak operacji arytmetycznych
 			\end{itemize}
 		\end{column}%
 		\hfill
-		\begin{column}{.55\textwidth}
+		\begin{column}{.50\textwidth}
 			\begin{lstlisting}
 (role xplayer)
-(role oplayer)
 (<=(legal ?player (mark ?m ?n))
  (true (cell ?m ?n blank))
  (true (control ?player)))
@@ -270,19 +290,44 @@ Objects {
 			\end{lstlisting}
 		\end{column}
 	\end{columns}
+	\footcitetext{GDL}
+\end{frame}
+
+% \begin{frame}
+% 	\frametitle{Podsumowanie istniejących rozwiązań}
+% 	\begin{itemize}
+% 		\item Istnieją rozwiązania spełniające cele mojego projektu
+% 		\item Skupiają się na wykorzystaniu w zadaniach SI
+% 		\item Mało przyjazne dla użytkownika definiującego zasady
+% 		\item Wymagają doświadczonego programisty do opisu zasad
+% 	\end{itemize}
+% \end{frame}
+
+\section{Projekt rozwiązania}
+
+\begin{frame}
+	\frametitle{HCL bazą języka}
+	Istniejący format HCL jako baza języka
+	\begin{itemize}
+		\item sprawdzony i znany format używany m. in. w Terraformie\footnotemark
+		\item zawiera elementy standardowych języków programowania:
+		      \begin{itemize}
+			      \item ewaluacja wyrażeń arytmetycznych i logicznych
+			      \item wykonywanie funkcji wbudowanych
+			      \item pętle w postaci ,,list/obiektów składanych'' (ang. list/object comprehension)
+		      \end{itemize}
+		\item oficjalny dodatek {\tt userfunc} umożliwia definicję funkcji przez użytkownika
+		\item zwięzły i czytelny kod
+	\end{itemize}
+	\footnotetext{Terraform -- narzędzie do zarządzania infrastrukturą komputerową w modelu infrastruktura jako kod (ang. IaC -- Infrastructure as Code)}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Podsumowanie istniejących rozwiązań}
-	\begin{itemize}
-		\item Istnieją rozwiązania spełniające cele mojego projektu
-		\item Skupiają się na wykorzystaniu w zadaniach SI
-		\item Mało przyjazne dla użytkownika definiującego zasady
-		\item Wymagają doświadczonego programisty do opisu zasad
-	\end{itemize}
+	\frametitle{Schemat rozwiązania}
 \end{frame}
 
-\section{Zadania pracy}
+
+\section{Implementacja}
 
 \begin{frame}
 	\frametitle{Język -- elementy}
@@ -301,23 +346,6 @@ Objects {
 		\item bieżący stan gry dostępny z każdej funkcji (tylko do odczytu)
 		\item kilka funkcji wbudowanych modyfikujących stan gry (np. {\tt capture, move})
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{HCL bazą języka}
-	Istniejący format HCL jako baza języka
-	\begin{itemize}
-		\item sprawdzony i znany format używany m. in. w Terraformie\footnotemark
-		\item zawiera elementy standardowych języków programowania:
-		      \begin{itemize}
-			      \item ewaluacja wyrażeń arytmetycznych i logicznych
-			      \item wykonywanie funkcji wbudowanych
-			      \item pętle w postaci ,,list/obiektów składanych'' (ang. list/object comprehension)
-		      \end{itemize}
-		\item oficjalny dodatek {\tt userfunc} umożliwia definicję funkcji przez użytkownika
-		\item zwięzły i czytelny kod
-	\end{itemize}
-	\footnotetext{Terraform -- narzędzie do zarządzania infrastrukturą komputerową w modelu infrastruktura jako kod (ang. IaC -- Infrastructure as Code)}
 \end{frame}
 
 \begin{frame}%[allowframebreaks]
@@ -482,24 +510,8 @@ composite_function "motion_neighbours" {
 
 \begin{frame}[allowframebreaks,noframenumbering]
 	\frametitle{Bibliografia}
-	\bibliographystyle{plain}
-	\begin{thebibliography}{9}
-		\bibitem{BGD} P. Schroten. ,,Introducing BGD: a DSL to express board games and gameplay'' (2019).
-
-		\bibitem{GDL} N. Love, T. Hinrichs, D. Haley, E. Schkufza, and M. Genesereth. ,,General Game Playing: Game Description Language Specification. Technical report, Stanford Logic Group'' (2006).
-
-		\bibitem{RAS} V. Lap. ,,Introducing RAS: A Domain Specific Language For Trading Card Games'' (2018).
-
-		\bibitem{metagame} B. Pell. ,,METAGAME: A New Challenge for Games and Learning. In Heuristic Programming in Artificial Intelligence: The Third Computer Olympiad.'' (1992).
-
-		\bibitem{GGP} J. Kowalski. ,,General Game Description Languages'' (2016).
-
-		\bibitem{chess} \url{https://www.fide.com/FIDE/handbook/LawsOfChess.pdf}
-
-		\bibitem{halma} \url{https://brainking.com/en/GameRules?tp=33}
-
-		\bibitem{dobutsu-shogi} \url{https://www.pychess.org/variants/dobutsu}
-	\end{thebibliography}
+	\nocite{*} % Print all entries
+	\printbibliography
 \end{frame}
 
 \begin{frame}[allowframebreaks,noframenumbering]
