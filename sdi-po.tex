@@ -3,11 +3,18 @@
 \usetheme{Warsaw}
 \usecolortheme{seahorse}
 \setbeamertemplate{navigation symbols}{}
-% \setbeamertemplate{bibliography item}{\insertbiblabel}
 \setbeamertemplate{caption}{\raggedright\scriptsize\insertcaption\par}
+\setbeamertemplate{headline}{%
+\leavevmode%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=3ex,dp=1.9ex]{palette quaternary}%
+    \insertsectionnavigationhorizontal{\paperwidth}{\hskip0pt plus1fill}{\hskip0pt plus1fill}
+    \end{beamercolorbox}%
+}
 \setbeamercolor{background canvas}{bg=}
-\setbeamerfont{footnote}{size=\tiny}
+% \setbeamerfont{footnote}{size=\tiny}
 \usepackage{beamerthemesplit}
+\usepackage{lmodern}
+\usepackage{bold-extra}
 \usepackage{pgf}
 \usepackage{epsfig}
 \usepackage{epstopdf}
@@ -39,8 +46,9 @@
     breaklines=true,
     tabsize=2,
 	numberstyle=\color{gray}\footnotesize,
-    basicstyle=\footnotesize\ttfamily,
+    basicstyle=\small\ttfamily,
 }
+\newcommand{\ttbf}[1]{{\tt \textbf{#1}}}
 % \AtBeginSection{
 %   \begin{frame}
 %   \vfill
@@ -73,10 +81,11 @@ Politechnika Warszawska}
 
 % \frame{\tableofcontents\frametitle{Plan prezentacji}}
 
-\section{Cele i zastosowania pracy}
+\section{Cele pracy}
 
 \begin{frame}
-	\frametitle{Cele pracy}
+	\frametitle{Cele i zastosowania pracy}
+	Cele pracy
 	\begin{enumerate}
 		\item opracowanie języka dziedzinowego do opisywania zasad gier planszowych opartych o szachownicę
 		\item implementacja silnika gry
@@ -86,10 +95,7 @@ Politechnika Warszawska}
 		      \end{itemize}
 		\item stworzenie interfejsu użytkownika
 	\end{enumerate}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Zastosowania}
+	Zastosowania pracy
 	\begin{itemize}
 		\item zachęcanie młodych osób do nauki programowania
 		\item edukacja początkujących programistów w ciekawy sposób
@@ -100,7 +106,7 @@ Politechnika Warszawska}
 \section{Tematyka pracy}
 
 \begin{frame}
-	\frametitle{Język domenowy}
+	\frametitle{Język dziedzinowy}
 	\begin{itemize}
 		\item wyspecjalizowany do konkretnych zadań
 		\item wąskie spektrum zastosowań
@@ -115,7 +121,7 @@ Politechnika Warszawska}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Język domenowy -- wstępne założenia}
+	\frametitle{Język dziedzinowy -- wstępne założenia}
 	\begin{itemize}
 		\item opisuje gry 2-osobowe, turowe, deterministyczne
 		\item możliwie nieskomplikowany
@@ -212,7 +218,7 @@ Politechnika Warszawska}
 \section{Istniejące rozwiązania}
 
 \begin{frame}[fragile]
-	\frametitle{BGD -- BoardGameDescription\setcounter{footnote}{0}\footnotemark}
+	\frametitle{BGD -- BoardGameDescription\addtocounter{footnote}{-1}\footnotemark}
 	\stepcounter{footnote}
 	\begin{columns}
 		\begin{column}{.5\textwidth}
@@ -264,7 +270,8 @@ Objects {
 % \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{GDL -- Game Description Language\setcounter{footnote}{0}\footnotemark}
+	\frametitle{GDL -- Game Description Language\addtocounter{footnote}{-1}\footnotemark}
+	\stepcounter{footnote}
 	\begin{columns}
 		\begin{column}{.50\textwidth}
 			\begin{itemize}
@@ -279,6 +286,7 @@ Objects {
 		\begin{column}{.50\textwidth}
 			\begin{lstlisting}
 (role xplayer)
+(role oplayer)
 (<=(legal ?player (mark ?m ?n))
  (true (cell ?m ?n blank))
  (true (control ?player)))
@@ -306,100 +314,102 @@ Objects {
 \section{Projekt rozwiązania}
 
 \begin{frame}
-	\frametitle{HCL bazą języka}
-	Istniejący format HCL jako baza języka
-	\begin{itemize}
-		\item sprawdzony i znany format używany m. in. w Terraformie\footnotemark
-		\item zawiera elementy standardowych języków programowania:
-		      \begin{itemize}
-			      \item ewaluacja wyrażeń arytmetycznych i logicznych
-			      \item wykonywanie funkcji wbudowanych
-			      \item pętle w postaci ,,list/obiektów składanych'' (ang. list/object comprehension)
-		      \end{itemize}
-		\item oficjalny dodatek {\tt userfunc} umożliwia definicję funkcji przez użytkownika
-		\item zwięzły i czytelny kod
-	\end{itemize}
-	\footnotetext{Terraform -- narzędzie do zarządzania infrastrukturą komputerową w modelu infrastruktura jako kod (ang. IaC -- Infrastructure as Code)}
+	\frametitle{Schemat systemu}
+	\begin{figure}
+		\includegraphics[height=5cm]{mess-system-diagram.jpg}
+		\centering
+	\end{figure}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Schemat rozwiązania}
+	\frametitle{Język -- elementy}
+	\begin{itemize}
+		\item rozmiar planszy: \ttbf{(int, int)}
+		\item ustawienie początkowe: \ttbf{Mapa<Pozycja, Figura>}
+		\item przebieg tury
+		\begin{itemize}
+			\item funkcja wyboru: \ttbf{() $\Rightarrow$ DrzewoWyboru}
+			\item akcja: \ttbf{(ŚcieżkaOpcji) $\Rightarrow$ void}
+		\end{itemize}
+		\item definicja typów figur
+		      \begin{itemize}
+			      \item generatory ruchu: \ttbf{(Pozycja) $\Rightarrow$ []Pozycja}
+			      \item funkcje wyboru: \ttbf{(Pozycja) $\Rightarrow$ DrzewoWyboru} 
+			      \item akcje: \ttbf{(Pozycja, ŚcieżkaOpcji) $\Rightarrow$ void}
+		      \end{itemize}
+		\item walidatory stanu gry po ruchu: \ttbf{(Ruch) $\Rightarrow$ bool}
+		\item funkcja końca gry: \ttbf{() $\Rightarrow$ (bool, Gracz)}
+		\item bieżący stan gry dostępny z każdej funkcji (tylko do odczytu)
+		\item kilka funkcji wbudowanych modyfikujących stan gry (np. \ttbf{capture}, \ttbf{move})
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Interakcja z użytkownikiem -- drzewo wyboru}
+	\begin{figure}
+		\includegraphics[height=7cm]{mess-choice-diagram.jpg}
+		\centering
+	\end{figure}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+	\frametitle{Interakcja z użytkownikiem -- drzewo opcji}
+	\begin{figure}
+		\includegraphics[height=7cm]{mess-option-diagram.jpg}
+		\centering
+	\end{figure}
+\end{frame}
+
+\begin{frame}[noframenumbering]
+	\frametitle{Interakcja z użytkownikiem -- walidacja stanów}
+	\begin{figure}
+		\includegraphics[height=7cm]{mess-validator-diagram.jpg}
+		\centering
+	\end{figure}
 \end{frame}
 
 
 \section{Implementacja}
 
 \begin{frame}
-	\frametitle{Język -- elementy}
-	Elementy języka:
+	\frametitle{HCL bazą języka}
+	Istniejący format HCL jako baza języka
 	\begin{itemize}
-		\item definicja planszy (rozmiar)
-		\item stan początkowy (ustawienie figur na planszy)
-		\item definicja typów figur
+		\item sprawdzony i znany format, używany m. in. w Terraformie\footnotemark
+		\item zawiera elementy standardowych języków programowania:
 		      \begin{itemize}
-			      \item generatory ruchu (funkcje typu: {\tt pozycja $\rightarrow$ []pozycja})
-			      \item akcje (funkcje typu: {\tt pozycja $\rightarrow$ void})
+			      \item ewaluacja wyrażeń arytmetycznych i logicznych
+			      \item wykonywanie funkcji wbudowanych
+			      \item pętle w postaci ,,list/obiektów składanych'' (\emph{ang.} list/object comprehension)
 		      \end{itemize}
-		\item walidatory stanu gry po ruchu (funkcje typu: {\tt ruch $\rightarrow$ bool})
-		\item predykat zakończenia gry + wybór zwycięzcy
-		% \item funkcja przebiegu rundy
-		\item bieżący stan gry dostępny z każdej funkcji (tylko do odczytu)
-		\item kilka funkcji wbudowanych modyfikujących stan gry (np. {\tt capture, move})
+		\item oficjalny dodatek {\tt userfunc} umożliwia definicję funkcji przez użytkownika
+		\item zwięzły i czytelny kod
 	\end{itemize}
-\end{frame}
-
-\begin{frame}%[allowframebreaks]
-	\frametitle{Pozostałe ustalenia}
-	\begin{itemize}
-		% \item Język:
-		%       \begin{itemize}
-		% 	      \item opracowanie wstępnego pliku zasad przed pracami nad silnikiem i modyfikacja w miarę potrzeb
-		% 	      \item moduł dekodujący, sprowadzający do obiektów domenowych używanych w silniku
-		% 	      \item testy plików zasad w postaci testów integracyjnych
-		%       \end{itemize}
-		\item Silnik:
-		      \begin{itemize}
-			      \item język: Go (w nim jest napisany parser HCL)
-			    %   \item testy jednostkowe silnika w odosobnieniu od modułu dekodującego zasady
-			      \item komunikacja między obiektami za pomocą zdarzeń % (łatwa implementacja cofania ruchów)
-		      \end{itemize}
-		    %   \framebreak
-		\item Interfejs użytkownika:
-		      \begin{itemize}
-			      \item początkowo tymczasowy interfejs terminalowy
-			      \item docelowo interfejs w przeglądarce
-			      \item TypeScript + React
-			      \item komunikacja z silnikiem za pomocą protokołu HTTP oraz WebSocket
-		      \end{itemize}
-	\end{itemize}
-\end{frame}
-
-\section{Dotychczasowe wyniki pracy}
-
-\begin{frame}
-	\frametitle{Dotychczasowe wyniki pracy}
-	\begin{itemize}
-		\item Opisane wszystkie 3 gry w plikach z zasadami
-		\item Silnik potrafiący poprawnie interpretować powyższe pliki
-		\item Pokrycie testami silnika na poziomie 56,2\%
-		\item Tymczasowy interfejs terminalowy gotowy
-		\item Rozpoczęcie prac nad interfejsem w przeglądarce
-	\end{itemize}
+	\footnotetext{Terraform -- narzędzie do zarządzania infrastrukturą komputerową w modelu infrastruktura jako kod (\emph{ang.} IaC -- Infrastructure as Code)}
 \end{frame}
 
 \begin{frame}[fragile]
 	\frametitle{Język -- przykładowy kod (definicja typu figury)}
 
 	\begin{lstlisting}
-piece_type "king" {
-	motion {
-		generator = "motion_castling"
-		actions   = ["displace_rook_after_castling"]
-	}
-	motion {
-		generator = "motion_neighbours"
-	}
-}
+  piece_type "pawn" {
+    motion {
+      generator = "motion_forward"
+      choice    = "promote_choose_piece_type"
+      action    = "promote"
+    }
+    motion {
+      generator = "motion_forward_double"
+    }
+    motion {
+      generator = "motion_forward_diagonal"
+      choice    = "promote_choose_piece_type"
+      action    = "promote"
+    }
+    motion {
+      generator = "motion_en_passant"
+      action    = "capture_en_passant"
+    } }
 	\end{lstlisting}
 \end{frame}
 
@@ -407,99 +417,159 @@ piece_type "king" {
 	\frametitle{Język -- przykładowy kod (generator ruchu)}
 
 	\begin{lstlisting}
-composite_function "motion_neighbours" {
+composite_function "motion_forward" {
   params = [square, piece]
   result = {
-    offsets = [
-      [0, 1], [1, 0], [0, -1], [-1, 0],
-      [1, 1], [1, -1], [-1, 1], [-1, -1]
-    ]
-    dests = [for offset in offsets : get_square_relative(square, offset)]
-    return = [
-      for dest in filternulls(dests) : dest
-      if !belongs_to(piece.color, dest)
-    ]
+    forward = owner_of(piece).forward_direction
+    dest = get_square_relative(square, forward)
+    return = dest == null ? [] : piece_at(dest) != null ? [] : [dest]
+  }
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Język -- przykładowy kod (funkcja wyboru)}
+    \begin{lstlisting}
+composite_function "promote_choose_piece_type" {
+  params = [piece, src, dst]
+  result = {
+    choice = {
+      message = "Promote"
+      type    = "piece_type"
+      options = [
+        for type in piece_types : type.name
+        if !contains(["king","pawn"], type.name)
+      ]
+    }
+    return = is_moving_to_last_rank(piece, dst) ? choice : null
   }
 }
 	\end{lstlisting}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Interfejs terminalowy -- szachy}
-	\centering
-	\includegraphics[width=0.95\textwidth]{chess-terminal.png}
+\begin{frame}[fragile]
+	\frametitle{Język -- przykładowy kod (akcja)}
+	\begin{lstlisting}
+composite_function "promote" {
+  params = [piece, src, dst, options]
+  result = {
+    owner = owner_of(piece)
+    piece_type = length(options) == 0 ? null : options[0].piece_type
+    _ = piece_type == null ? null : place_new_piece(piece_type.name, dst, owner.color)
+  }
+}
+	\end{lstlisting}
 \end{frame}
 
+% \begin{frame}%[allowframebreaks]
+% 	\frametitle{Pozostałe ustalenia}
+% 	\begin{itemize}
+% 		% \item Język:
+% 		%       \begin{itemize}
+% 		% 	      \item opracowanie wstępnego pliku zasad przed pracami nad silnikiem i modyfikacja w miarę potrzeb
+% 		% 	      \item moduł dekodujący, sprowadzający do obiektów domenowych używanych w silniku
+% 		% 	      \item testy plików zasad w postaci testów integracyjnych
+% 		%       \end{itemize}
+% 		\item Silnik:
+% 		      \begin{itemize}
+% 			      \item język: Go (w nim jest napisany parser HCL)
+% 			    %   \item testy jednostkowe silnika w odosobnieniu od modułu dekodującego zasady
+% 			      \item komunikacja między obiektami za pomocą zdarzeń % (łatwa implementacja cofania ruchów)
+% 		      \end{itemize}
+% 		    %   \framebreak
+% 		\item Interfejs użytkownika:
+% 		      \begin{itemize}
+% 			      \item początkowo tymczasowy interfejs terminalowy
+% 			      \item docelowo interfejs w przeglądarce
+% 			      \item TypeScript + React
+% 			      \item komunikacja z silnikiem za pomocą protokołu HTTP oraz WebSocket
+% 		      \end{itemize}
+% 	\end{itemize}
+% \end{frame}
+
+\section{Wyniki pracy}
+
 \begin{frame}
-	\frametitle{Interfejs terminalowy -- Halma}
-	\centering
-	\includegraphics[width=0.95\textwidth]{halma-terminal.png}
+	\frametitle{Wyniki pracy}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Interfejs terminalowy -- Dōbutsu shōgi}
-	\centering
-	\includegraphics[width=0.95\textwidth]{dobutsu-shogi-terminal.png}
-\end{frame}
+% \begin{frame}
+% 	\frametitle{Interfejs terminalowy -- szachy}
+% 	\centering
+% 	\includegraphics[width=0.95\textwidth]{chess-terminal.png}
+% \end{frame}
+
+% \begin{frame}
+% 	\frametitle{Interfejs terminalowy -- Halma}
+% 	\centering
+% 	\includegraphics[width=0.95\textwidth]{halma-terminal.png}
+% \end{frame}
+
+% \begin{frame}
+% 	\frametitle{Interfejs terminalowy -- Dōbutsu shōgi}
+% 	\centering
+% 	\includegraphics[width=0.95\textwidth]{dobutsu-shogi-terminal.png}
+% \end{frame}
+
+% \begin{frame}
+% 	\frametitle{Interfejs w przeglądarce -- szachy}
+% 	\centering
+% 	\includegraphics[height=0.85\textheight]{chess-browser.png}
+% \end{frame}
+
+% \section{Plan przyszłych prac}
+
+% \begin{frame}
+% 	\frametitle{Program minimum (gotowy)}
+% 	\begin{itemize}
+% 		\item Opracowanie języka dziedzinowego, bazującego na HCL, do opisywania zasad dwuosobowych gier planszowych opartych o szachownicę
+% 		\item Język musi pozwalać na opisanie zasad:
+% 		      \begin{itemize}
+% 			      \item standardowych szachów
+% 			      \item gry Dōbutsu Shōgi
+% 			      \item gry Halma
+% 		      \end{itemize}
+% 		\item Projekt i implementacja silnika gry, będącego interpreterem ww. języka,
+% 		\item Stworzenie interfejsu użytkownika, pozwalającego na prowadzenie rozgrywki dwóch osób
+% 	\end{itemize}
+% \end{frame}
+
+% \begin{frame}
+% 	\frametitle{Plan przyszłych prac}
+% 	\begin{itemize}
+% 		\item Październik:
+% 		      \begin{itemize}
+% 			      \item Stworzyć serwer HTTP/WS do interakcji z silnikiem
+% 			      \item Połączyć interfejs w przeglądarce z ww. serwerem
+% 		      \end{itemize}
+% 		\item Listopad:
+% 		      \begin{itemize}
+% 			      \item Dodać możliwość gry na wielu urządzeniach
+% 			      \item Rozszerzyć plik z zasadami o możliwość konfiguracji wyglądu figur
+% 		      \end{itemize}
+% 		\item Grudzień i styczeń
+% 		      \begin{itemize}
+% 			      \item Napisać pracę inżynierską
+% 		      \end{itemize}
+% 	\end{itemize}
+% \end{frame}
+%
+% \begin{frame}
+% 	\frametitle{Dodatkowe zagadnienia do rozwiązania}
+% 	\begin{itemize}
+% 		\item Zwiększyć poziom pokrycia kodu testami
+% 		\item Zautomatyzować budowanie projektu (konteneryzacja)
+% 		\item Wdrożyć projekt na wybraną usługę chmurową
+% 		\item Dodać edytor tekstowy zasad do interfejsu w przeglądarce
+% 		\item Dodać przyjazny edytor graficzny zasad do interfejsu w przeglądarce
+% 	\end{itemize}
+% \end{frame}
+
+\section{Wnioski}
 
 \begin{frame}
-	\frametitle{Interfejs w przeglądarce -- szachy}
-	\centering
-	\includegraphics[height=0.85\textheight]{chess-browser.png}
-\end{frame}
-
-\section{Plan przyszłych prac}
-
-\begin{frame}
-	\frametitle{Program minimum (gotowy)}
-	\begin{itemize}
-		\item Opracowanie języka dziedzinowego, bazującego na HCL, do opisywania zasad dwuosobowych gier planszowych opartych o szachownicę
-		\item Język musi pozwalać na opisanie zasad:
-		      \begin{itemize}
-			      \item standardowych szachów
-			      \item gry Dōbutsu Shōgi
-			      \item gry Halma
-		      \end{itemize}
-		\item Projekt i implementacja silnika gry, będącego interpreterem ww. języka,
-		\item Stworzenie interfejsu użytkownika, pozwalającego na prowadzenie rozgrywki dwóch osób
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Plan przyszłych prac}
-	\begin{itemize}
-		\item Październik:
-		      \begin{itemize}
-			      \item Stworzyć serwer HTTP/WS do interakcji z silnikiem
-			      \item Połączyć interfejs w przeglądarce z ww. serwerem
-		      \end{itemize}
-		\item Listopad:
-		      \begin{itemize}
-			      \item Dodać możliwość gry na wielu urządzeniach
-			      \item Rozszerzyć plik z zasadami o możliwość konfiguracji wyglądu figur
-		      \end{itemize}
-		\item Grudzień i styczeń
-		      \begin{itemize}
-			      \item Napisać pracę inżynierską
-		      \end{itemize}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Dodatkowe zagadnienia do rozwiązania}
-	\begin{itemize}
-		\item Zwiększyć poziom pokrycia kodu testami
-		\item Zautomatyzować budowanie projektu (konteneryzacja)
-		\item Wdrożyć projekt na wybraną usługę chmurową
-		\item Dodać edytor tekstowy zasad do interfejsu w przeglądarce
-		\item Dodać przyjazny edytor graficzny zasad do interfejsu w przeglądarce
-	\end{itemize}
-\end{frame}
-
-\section{Podsumowanie}
-
-\begin{frame}
-	\frametitle{Podsumowanie}
+	\frametitle{Wnioski}
 
 	\begin{itemize}
 		\item Język dziedzinowy do generowania gier planszowych opartych o szachownicę
@@ -511,7 +581,7 @@ composite_function "motion_neighbours" {
 \begin{frame}[allowframebreaks,noframenumbering]
 	\frametitle{Bibliografia}
 	\nocite{*} % Print all entries
-	\printbibliography
+	\printbibliography[heading=none]
 \end{frame}
 
 \begin{frame}[allowframebreaks,noframenumbering]
