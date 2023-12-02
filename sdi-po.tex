@@ -97,7 +97,6 @@ Politechnika Warszawska}
 	\end{enumerate}
 	Zastosowania pracy
 	\begin{itemize}
-		\item zachęcanie młodych osób do nauki programowania
 		\item edukacja początkujących programistów w ciekawy sposób
 		\item szybkie tworzenie gier do zadań sztucznej inteligencji
 	\end{itemize}
@@ -584,48 +583,48 @@ composite_function "promote" {
 	\printbibliography[heading=none]
 \end{frame}
 
-\begin{frame}[allowframebreaks,noframenumbering]
-	\frametitle{Język -- podejścia}
-	Możliwe podejścia:
-	\begin{enumerate}
-		\item stworzenie własnego języka dziedzinowego
-		      \begin{itemize}
-			      \pro całkowita możliwość dostosowania języka do potrzeb
-			      \con tworzenie parsera bardzo pracochłonne
-			      \con brak dodatkowych narzędzi (formatowanie, detekcja błędów składniowych, itp.)
-			      \con brak znajomości języka u użytkowników
-		      \end{itemize}
-		\item stworzenie języka dziedzinowego zanurzonego w języku programowania (np. Kotlin, Haskell, Lua)
-		      \begin{itemize}
-			      \pro dostępne wszystkie możliwości języka nadrzędnego
-			      \pro znajoma składnia dla użytkowników
-			      \con trudny do ograniczenia (problem bezpieczeństwa)
-		      \end{itemize}
-		      \framebreak
-		\item użycie istniejącego formatu (np. {\tt JSON}, {\tt YAML})
-		      \begin{itemize}
-			      \pro formaty popularne i znane przez użytkowników
-			      \pro brak potrzeby tworzenia parsera
-			      \con brak łatwego zapisu wyrażeń, funkcji, pętli, itp.
-			      \con brak możliwości modyfikacji składni języka
-		      \end{itemize}
-	\end{enumerate}
-\end{frame}
+% \begin{frame}[allowframebreaks,noframenumbering]
+% 	\frametitle{Język -- podejścia}
+% 	Możliwe podejścia:
+% 	\begin{enumerate}
+% 		\item stworzenie własnego języka dziedzinowego
+% 		      \begin{itemize}
+% 			      \pro całkowita możliwość dostosowania języka do potrzeb
+% 			      \con tworzenie parsera bardzo pracochłonne
+% 			      \con brak dodatkowych narzędzi (formatowanie, detekcja błędów składniowych, itp.)
+% 			      \con brak znajomości języka u użytkowników
+% 		      \end{itemize}
+% 		\item stworzenie języka dziedzinowego zanurzonego w języku programowania (np. Kotlin, Haskell, Lua)
+% 		      \begin{itemize}
+% 			      \pro dostępne wszystkie możliwości języka nadrzędnego
+% 			      \pro znajoma składnia dla użytkowników
+% 			      \con trudny do ograniczenia (problem bezpieczeństwa)
+% 		      \end{itemize}
+% 		      \framebreak
+% 		\item użycie istniejącego formatu (np. {\tt JSON}, {\tt YAML})
+% 		      \begin{itemize}
+% 			      \pro formaty popularne i znane przez użytkowników
+% 			      \pro brak potrzeby tworzenia parsera
+% 			      \con brak łatwego zapisu wyrażeń, funkcji, pętli, itp.
+% 			      \con brak możliwości modyfikacji składni języka
+% 		      \end{itemize}
+% 	\end{enumerate}
+% \end{frame}
 
-\begin{frame}[noframenumbering]
-	\frametitle{HCL -- problemy}
-	\begin{itemize}
-		\item Dodatek {\tt userfunc} umożliwia tworzenie jedynie funkcji składających się z jednego wyrażenia
-		      \begin{itemize}
-			      \item rozwiązanie -- modyfikacja dodatku do potrzeb
-		      \end{itemize}
-		\item Ewaluacja operacji logicznych {\tt \&\&} i {\tt ||} nie jest ,,leniwa''
-		      \begin{itemize}
-			      \item niespodziewane błędy podczas interpretacji reguł
-			      \item \lstinline|isValid = destination != null && piece_at(destination) == null|
-		      \end{itemize}
-	\end{itemize}
-\end{frame}
+% \begin{frame}[noframenumbering]
+% 	\frametitle{HCL -- problemy}
+% 	\begin{itemize}
+% 		\item Dodatek {\tt userfunc} umożliwia tworzenie jedynie funkcji składających się z jednego wyrażenia
+% 		      \begin{itemize}
+% 			      \item rozwiązanie -- modyfikacja dodatku do potrzeb
+% 		      \end{itemize}
+% 		\item Ewaluacja operacji logicznych {\tt \&\&} i {\tt ||} nie jest ,,leniwa''
+% 		      \begin{itemize}
+% 			      \item niespodziewane błędy podczas interpretacji reguł
+% 			      \item \lstinline|isValid = destination != null && piece_at(destination) == null|
+% 		      \end{itemize}
+% 	\end{itemize}
+% \end{frame}
 
 
 \end{document}
