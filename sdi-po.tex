@@ -79,7 +79,7 @@ Politechnika Warszawska}
 
 \frame{\titlepage}
 
-% \frame{\tableofcontents\frametitle{Plan prezentacji}}
+\frame{\tableofcontents\frametitle{Plan prezentacji}}
 
 \section{Cele pracy}
 
@@ -97,8 +97,8 @@ Politechnika Warszawska}
 	\end{enumerate}
 	Zastosowania pracy
 	\begin{itemize}
+		\item zachęcanie do programowania
 		\item edukacja początkujących programistów w ciekawy sposób
-		\item szybkie tworzenie gier do zadań sztucznej inteligencji
 	\end{itemize}
 \end{frame}
 
@@ -110,17 +110,8 @@ Politechnika Warszawska}
 		\item wyspecjalizowany do konkretnych zadań
 		\item wąskie spektrum zastosowań
 		\item łatwe i szybkie korzystanie
-		\item podejścia:
-		\begin{enumerate}
-			\item stworzenie własnego języka dziedzinowego
-			\item stworzenie języka dziedzinowego zanurzonego w języku programowania (np. Kotlin, Lua, Haskell)
-			\item użycie istniejącego formatu (np. {\tt JSON}, {\tt YAML})
-		\end{enumerate} 
 	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Język dziedzinowy -- wstępne założenia}
+	Podstawowe założenia mojego języka
 	\begin{itemize}
 		\item opisuje gry 2-osobowe, turowe, deterministyczne
 		\item możliwie nieskomplikowany
@@ -233,15 +224,18 @@ Politechnika Warszawska}
 			\begin{lstlisting}
 Locations {
  Loc1 {Startspace=true;}
- Loc2 ...
-}
+ Loc2 ...  }
 LocationConnections {
-	Directed {Loc1 Loc2}
-}
+ Directed {Loc1 Loc2} }
 Objects {
-	Pawn {...}
-	Dice {...}
-}
+ Pawn {...}
+ Dice {...} }
+Rounds {
+ Main() {...}
+ ... }
+Actions {
+ StartPawn(Location l) {...}
+ ... }
 			\end{lstlisting}
 		\end{column}
 	\end{columns}
@@ -491,6 +485,26 @@ composite_function "promote" {
 
 \begin{frame}
 	\frametitle{Wyniki pracy}
+	\begin{itemize}
+		\item Stworzenie działającego systemu
+		\item Konteneryzacja, wdrożenie na klaster Kubernetesa: \url{mess.westeurope.cloudapp.azure.com}
+		\item Film demonstracyjny
+		\item Do zrobienia:
+		\begin{itemize}
+			\item drobne poprawki interfejsu
+			\item poprawa wydajności obliczania dozwolonych przejść
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Testy}
+	\begin{itemize}
+		\item Silnik testowany jednostkowo
+		\item Moduł dekodujący i pliki zasad testowane integracyjnie, wraz z silnikiem
+		\item Serwis API testowany integracyjnie wraz z pozostałymi komponentami
+		\item Testy manualne
+	\end{itemize}
 \end{frame}
 
 % \begin{frame}
